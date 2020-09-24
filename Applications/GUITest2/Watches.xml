@@ -1,0 +1,5 @@
+﻿<Properties>
+  <WatchEntry0 value="objcount.count" />
+  <WatchEntry1 value="oDesc(&quot;xpath&quot;).value" />
+  <WatchEntry2 value="objcount(itr).getroproperty(&quot;value&quot;)" />
+</Properties>
