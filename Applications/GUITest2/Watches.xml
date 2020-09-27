@@ -1,3 +1,7 @@
 ﻿<Properties>
-  <WatchEntry0 value="Environment.Value(&quot;ErrorMessage&quot;)" />
+  <WatchEntry0 value="err.description" />
+  <WatchEntry1 value="obj" />
+  <WatchEntry2 value="instr(1,obj.GetROProperty(&quot;all items&quot;),sFullAddress)" />
+  <WatchEntry3 value="obj.GetROProperty(&quot;all items&quot;)" />
+  <WatchEntry4 value="obj.Exist(pageSyncwaitTime)" />
 </Properties>

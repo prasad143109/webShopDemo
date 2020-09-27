@@ -1,4 +1,5 @@
-﻿Public oEnvironment,oUrl,oUsername,oPassword
+﻿	
+Public oEnvironment,oUrl,oUsername,oPassword
 On error resume next
 Set objfso= createObject("Scripting.fileSystemObject")
 Environment.Value("TestStepNo")=0
@@ -103,7 +104,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 				LogResult micFail,sTestCaseID, "Retrive Login Credentials", comments
 				Environment.Value("Comments")=comments
 				Environment.Value("Status")="FAILED"
-				Environment.Value("TotalFailedTCs")=Environment.Value("TotalFailedTCs")+1
 				sTestCaseSetupFlag=False
 			Else
 				strURL=oConfigSheet.cells(cfEnvRow.row,oUrl.column).value
@@ -118,7 +118,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 					LogResult micFail,sTestCaseID, "Retrive testcase Input fieldItems", comments
 					Environment.Value("Comments")=comments
 					Environment.Value("Status")="FAILED"
-					Environment.Value("TotalFailedTCs")=Environment.Value("TotalFailedTCs")+1
 					sTestCaseSetupFlag=False
 				Else
 					fieldItemString=oTCFieldSheet.cells(tcFieldRow.row,oTCFieldItems.column).value
@@ -132,7 +131,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 								LogResult micFail,sTestCaseID, "Retrive testcase  fieldItem values", comments
 								Environment.Value("Comments")=comments
 								Environment.Value("Status")="FAILED"
-								Environment.Value("TotalFailedTCs")=Environment.Value("TotalFailedTCs")+1
 								sTestCaseSetupFlag=False
 								Exit for
 							Else
@@ -155,6 +153,7 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 						Call Web_CloseSession()
 						Environment.Value("Status")="PASSED" 
 					Case "Demo002"
+						Call initializeBrowser
 						Environment.Value("ExpectedResult") ="Login was unsuccessful. Please correct the errors and try again."
 						Environment.Value("UID")=oDictFieldItem.Item("invalid_username")
 						Environment.Value("PWD")=oDictFieldItem.Item("invalid_password")
@@ -166,6 +165,7 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 						End If	
 						Web_CloseSession()
 					Case "Demo003"
+						Call initializeBrowser
 						Environment.Value("ExpectedResult")="Please enter a valid email address."
 						Environment.Value("UID")=oDictFieldItem.Item("wrong_username")
 						Environment.Value("PWD")=oDictFieldItem.Item("wrong_password")
@@ -177,6 +177,7 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 						End If	
 						Web_CloseSession()	
 					Case "Demo004"
+						Call initializeBrowser
 						Environment.Value("ExpectedResult")="Please verify login credentials once, it should not be emply"
 						Environment.Value("UID")=""
 						Environment.Value("PWD")=""
@@ -188,24 +189,32 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 						End If	
 						Web_CloseSession()
 						
+					Case "Demo005"
+						Call initializeBrowser
+						If launchBrowser(strURL)=False Then Exit for
+						If applicationLogin(Environment.Value("UID"),Environment.Value("PWD"))=False Then Exit for
+						If emptyShoppingCart()=False Then Exit for
+						Call Web_CloseSession()
+						Environment.Value("Status")="PASSED" 
 					Case "Demo006"
-						Call launchBrowser(strBrowserType,strURL)
-						Call login(Environment.Value("UID"),Environment.Value("PWD"))
-						Environment.Value("Status")="PASSED"
-						emptyShoppingCart()
-						updateTestCaseStatus oTCExecSheet,row,sCommentCol,sStatusCol
-						Web_CloseSession()
-					Case "Demo004"
-						Call launchBrowser(strBrowserType,strURL)
-						Call login(Environment.Value("UID"),Environment.Value("PWD"))
-						addItemToCartandVerifyDetails
-						enterBillingAddressDetails
+						Environment.Value("itemQuantity")=oDictFieldItem.Item("item_Quantity")
+						Environment.Value("FirstName")=oDictFieldItem.Item("Address_FirstName")
+						Environment.Value("LastName")=oDictFieldItem.Item("Address_LastName")
+						Environment.Value("Country")=oDictFieldItem.Item("Address_Country")
+						Environment.Value("City")=oDictFieldItem.Item("Address_City")
+						Environment.Value("Address1")=oDictFieldItem.Item("Address_Address1")
+						Environment.Value("ZIPCode")=oDictFieldItem.Item("Address_zipcode")
+						Environment.Value("PhoneNumber")=oDictFieldItem.Item("Address_PhoneNumber")
+						Call initializeBrowser
+						If launchBrowser(strURL)=False Then Exit for
+						If applicationLogin(Environment.Value("UID"),Environment.Value("PWD"))=False Then Exit for
+						If emptyShoppingCart()=False Then Exit for
+						If addItemToCartandVerifyDetails()=False Then Exit for
+						enterBillingAddressDetails(oDictFieldItem)
 						Web_CloseSession()
 					Case else
 						LogResult micFail,sTestCaseID, "TC should be available", "Provided testcase is not available, please check it once"
 				End Select
-			Else
-				Environment.Value("TotalFailedTCs")=Environment.Value("TotalFailedTCs")+1
 			End If	
 		Next
 		If Environment.Value("Status")="PASSED" Then 
