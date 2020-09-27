@@ -150,7 +150,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 						Call initializeBrowser
 						If launchBrowser(strURL)=False Then Exit for
 						If applicationLogin(Environment.Value("UID"),Environment.Value("PWD"))=False Then Exit for
-						Call Web_CloseSession()
 						Environment.Value("Status")="PASSED" 
 					Case "Demo002"
 						Call initializeBrowser
@@ -163,7 +162,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 							Environment.Value("Status")="PASSED"	
 							End If
 						End If	
-						Web_CloseSession()
 					Case "Demo003"
 						Call initializeBrowser
 						Environment.Value("ExpectedResult")="Please enter a valid email address."
@@ -175,7 +173,6 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 							Environment.Value("Status")="PASSED"	
 							End If
 						End If	
-						Web_CloseSession()	
 					Case "Demo004"
 						Call initializeBrowser
 						Environment.Value("ExpectedResult")="Please verify login credentials once, it should not be emply"
@@ -187,31 +184,31 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 							Environment.Value("Status")="PASSED"	
 							End If
 						End If	
-						Web_CloseSession()
 						
 					Case "Demo005"
 						Call initializeBrowser
 						If launchBrowser(strURL)=False Then Exit for
 						If applicationLogin(Environment.Value("UID"),Environment.Value("PWD"))=False Then Exit for
 						If emptyShoppingCart()=False Then Exit for
-						Call Web_CloseSession()
 						Environment.Value("Status")="PASSED" 
 					Case "Demo006"
-						Environment.Value("itemQuantity")=oDictFieldItem.Item("item_Quantity")
-						Environment.Value("FirstName")=oDictFieldItem.Item("Address_FirstName")
-						Environment.Value("LastName")=oDictFieldItem.Item("Address_LastName")
-						Environment.Value("Country")=oDictFieldItem.Item("Address_Country")
-						Environment.Value("City")=oDictFieldItem.Item("Address_City")
-						Environment.Value("Address1")=oDictFieldItem.Item("Address_Address1")
-						Environment.Value("ZIPCode")=oDictFieldItem.Item("Address_zipcode")
-						Environment.Value("PhoneNumber")=oDictFieldItem.Item("Address_PhoneNumber")
+						Environment.Value("itemQuantity")=oDictFieldItem.Item("item_Quantity").value
+						Environment.Value("FirstName")=oDictFieldItem.Item("Address_FirstName").value
+						Environment.Value("LastName")=oDictFieldItem.Item("Address_LastName").value
+						Environment.Value("Country")=oDictFieldItem.Item("Address_Country").value
+						Environment.Value("City")=oDictFieldItem.Item("Address_City").value
+						Environment.Value("Address1")=oDictFieldItem.Item("Address_Address1").value
+						Environment.Value("ZIPCode")=oDictFieldItem.Item("Address_zipcode").value
+						Environment.Value("PhoneNumber")=oDictFieldItem.Item("Address_PhoneNumber").value
+						Environment.Value("PaymentMethod")=oDictFieldItem.Item("Address_PaymentMethod").value
+						Environment.Value("ShippingMethod")=oDictFieldItem.Item("Address_ShippingMethod").value
 						Call initializeBrowser
 						If launchBrowser(strURL)=False Then Exit for
 						If applicationLogin(Environment.Value("UID"),Environment.Value("PWD"))=False Then Exit for
 						If emptyShoppingCart()=False Then Exit for
 						If addItemToCartandVerifyDetails()=False Then Exit for
-						enterBillingAddressDetails(oDictFieldItem)
-						Web_CloseSession()
+						If enterBillingAddressDetails(oDictFieldItem)=False Then Exit for
+						Environment.Value("Status")="PASSED"
 					Case else
 						LogResult micFail,sTestCaseID, "TC should be available", "Provided testcase is not available, please check it once"
 				End Select
@@ -224,6 +221,7 @@ For row = 2 to oTCExecSheet.usedrange.rows.count
 			Environment.Value("TotalFailedTCs")=Environment.Value("TotalFailedTCs")+1
 		End If 
 		updateTestCaseStatus oTCExecSheet,row,sCommentCol,sStatusCol
+		Call Web_CloseSession()
 	End If
 Next
 TestCaseExecutiveSummary()
@@ -343,3 +341,10 @@ TestCaseExecutiveSummary()
 'Browser("DemoWebShop").Page("Demo Web Shop. Checkout_2").WebElement("Order number: 787185").Click @@ script infofile_;_ZIP::ssf56.xml_;_
 'Browser("DemoWebShop").Page("Demo Web Shop. Checkout_2").WebButton("Continue").Click @@ script infofile_;_ZIP::ssf57.xml_;_
 'Browser("DemoWebShop").Page("DemoWebShop").Link("Log out").Click @@ script infofile_;_ZIP::ssf58.xml_;_
+
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebElement("Next Day Air (0.00)").Click @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebElement("Next Day Air (0.00)")_;_script infofile_;_ZIP::ssf59.xml_;_
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("shippingoption").Select "Next Day Air___Shipping.FixedRate" @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("shippingoption")_;_script infofile_;_ZIP::ssf60.xml_;_
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("shippingoption").Select "Ground___Shipping.FixedRate" @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("shippingoption")_;_script infofile_;_ZIP::ssf61.xml_;_
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebButton("Continue").Click @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebButton("Continue")_;_script infofile_;_ZIP::ssf62.xml_;_
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("paymentmethod").Select "Payments.CheckMoneyOrder" @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("paymentmethod")_;_script infofile_;_ZIP::ssf63.xml_;_
+'Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("paymentmethod").Select "Payments.CashOnDelivery" @@ hightlight id_;_Browser("Demo Web Shop. Checkout").Page("Demo Web Shop. Checkout").WebRadioGroup("paymentmethod")_;_script infofile_;_ZIP::ssf64.xml_;_

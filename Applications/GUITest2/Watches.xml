@@ -1,7 +1,6 @@
 ﻿<Properties>
   <WatchEntry0 value="err.description" />
-  <WatchEntry1 value="obj" />
-  <WatchEntry2 value="instr(1,obj.GetROProperty(&quot;all items&quot;),sFullAddress)" />
-  <WatchEntry3 value="obj.GetROProperty(&quot;all items&quot;)" />
-  <WatchEntry4 value="obj.Exist(pageSyncwaitTime)" />
+  <WatchEntry1 value="Environment.Value(&quot;Address_PaymentMethod&quot;)" />
+  <WatchEntry2 value="strPaymentInfo" />
+  <WatchEntry3 value="strOrderNumber" />
 </Properties>
