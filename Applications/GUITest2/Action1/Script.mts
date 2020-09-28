@@ -14,7 +14,6 @@ Environment.Value("ResultPath")=Environment.Value("FrameworkPath") & "Results" &
 Environment.Value("TestDataPath")=Environment.Value("FrameworkPath") & "TestData" & "\"
 Environment.Value("LogsPath")=Environment.Value("FrameworkPath") & "Logs" & "\"
 
-
 'Load library files
 set libraryFiles= objfso.GetFolder(Environment.Value("FunLibraryPath")).Files
 If NOT ISObject(libraryFiles) Then

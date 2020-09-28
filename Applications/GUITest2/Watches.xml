@@ -1,6 +1,3 @@
 ﻿<Properties>
-  <WatchEntry0 value="err.description" />
-  <WatchEntry1 value="Environment.Value(&quot;Address_PaymentMethod&quot;)" />
-  <WatchEntry2 value="strPaymentInfo" />
-  <WatchEntry3 value="strOrderNumber" />
+  <WatchEntry0 value="sMessage" />
 </Properties>

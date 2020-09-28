@@ -1,0 +1,12 @@
+Log File Created Successfully
+
+QTP object created
+
+QTP launched successfully
+
+QTP script opened
+
+QTP script has been executed successfully
+
+Killed UFT Process
+
