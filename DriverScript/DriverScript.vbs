@@ -6,7 +6,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objFile = objFSO.GetFile(strPath)
 strFolder = objFSO.GetParentFolderName(objFile) 
 strLogFolder=objFSO.GetParentFolderName(strFolder)
-strScriptPath = strLogFolder & "\Applications\GUITest2"
+strScriptPath = strLogFolder & "\Applications\WebShopDemo"
 
 objFSO.DeleteFile(strLogFolder & "\Logs\*"), True
 If CreateLog(objFSO,strLogFolder, strDateTime,errtxt) = False Then 
