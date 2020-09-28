@@ -68,6 +68,11 @@ If HeaderVerify(oTCExecSheet,ColNames)=false Then
 	strLogFile.WriteLine "Invalid columns in Input Sheet"&oTCExecSheet.Name
 	ExitTest
 End If
+
+sCommentCol=oComments.column
+sStatusCol= oStatus.column
+oTCExecSheet.range("F2:G"&oTCExecSheet.usedrange.rows.count).clear ' Clears the previous status and comments data
+
 'get TCFieldsheet Fielditem Indexes
 Set oTCID=oTCFieldSheet.range("1:1").find("TestcaseID")
 Set oTCFieldItems=oTCFieldSheet.range("1:1").find("FieldItemNames")
@@ -78,8 +83,6 @@ If HeaderVerify(oTCFieldSheet,ColNames)=false Then
 	ExitTest
 End If
 
-sCommentCol=oComments.column
-sStatusCol= oStatus.column
 
 Set oDictFieldItem=CreateObject("Scripting.Dictionary")
 
