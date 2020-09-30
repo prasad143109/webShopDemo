@@ -31,7 +31,7 @@ set objRepFiles= objfso.GetFolder(Environment.Value("ObjectRepositoryPath")).Fil
 If NOT ISObject(libraryFiles) Then
 	ExitTest
 End If
-For each repFile in libraryFiles
+For each repFile in objRepFiles
 	If Lcase(split(repFile.name,".")(1))="tsr" Then
 		RepositoriesCollection.Add(repFile.path)  
 	End If 
